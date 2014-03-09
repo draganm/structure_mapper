@@ -1,6 +1,83 @@
 require 'spec_helper'
 
 describe StructureMapper::Array do
+
+  describe :to_structure do
+    context "when object is mapped to hash" do
+      context "when object has one String property" do
+        subject do
+          type=Class.new do
+            include StructureMapper::Hash
+            attribute a: String
+          end
+
+          r=type.new
+          r.a="test"
+          r
+        end
+
+        it "should map to hash with that property set" do
+          subject.to_structure.should == {'a' => 'test'}
+        end
+      end
+      context "when object has one Mapped object property" do
+        subject do
+          type=Class.new do
+            include StructureMapper::Hash
+            attribute a: self
+          end
+          inner=type.new
+          r=type.new
+          r.a=inner
+          r
+        end
+
+        it "should map to hash with that property set" do
+          subject.to_structure.should == {'a' => {'a' => nil}}
+        end
+      end
+    end
+
+    context "when object is mapped to array" do
+      context "when object has one String property" do
+        subject do
+          type=Class.new do
+            include StructureMapper::Array
+            attribute a: String
+          end
+
+          r=type.new
+          r.a="test"
+          r
+        end
+
+        it "should map to hash with that property set" do
+          subject.to_structure.should == ['test']
+        end
+      end
+    end
+
+    context "when object has one Mapped object property" do
+      subject do
+        type=Class.new do
+          include StructureMapper::Array
+          attribute a: self
+        end
+        inner=type.new
+        r=type.new
+        r.a=inner
+        r
+      end
+
+      it "should map to hash with that property set" do
+        subject.to_structure.should == [[nil]]
+      end
+    end
+
+  end
+
+
+
   describe :from_structure do
     context "when array has one String attribute" do
       let(:data) { ['value']}
@@ -115,6 +192,24 @@ end
 describe StructureMapper::Hash do
 
   describe :from_structure do
+
+    context "when hash has one attribute that is hash of String keys and  mapped object values" do
+      let(:data) { {'a' => {'x' => [{'b' => 'c'}]} }}
+      let(:inner_class) {Class.new {include StructureMapper::Hash; attribute b: String;}}
+      subject do
+        inner=inner_class
+        Class.new do
+          include StructureMapper::Hash
+          attribute a: {String => [inner]}
+        end
+      end
+      it "should map the attribute to the array of objects" do
+        expected=inner_class.new
+        expected.b='c'
+        subject.from_structure(data).a.should == {'x' => [expected]}
+
+      end
+    end
 
     context "when hash has one String attribute" do
       let(:data) { {'a' => 'b'}}
