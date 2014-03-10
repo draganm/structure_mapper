@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/draganm/structure_mapper.png?branch=master)](https://travis-ci.org/draganm/structure_mapper) 
+
 # StructureMapper
 
 Structure mapper is a generic mapper of nested data structures (Hash, Array, ...) to ruby objects using very simple but powerful syntax. Unlike other mappers that are tightly coupled with persistence (ActiceRecord, Mongomapper), StructureMapper does only one thing, but does it well.
