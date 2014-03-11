@@ -2,5 +2,7 @@ require 'json'
 require 'simplecov'
 SimpleCov.start
 require 'structure_mapper'
-require 'coveralls'
-Coveralls.wear!
+if ENV['TRAVIS']
+  require 'coveralls'
+  Coveralls.wear!
+end

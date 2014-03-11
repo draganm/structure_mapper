@@ -66,6 +66,15 @@ module StructureMapper
       end
     end
 
+    def == other
+      return false unless self.class == other.class
+      self.class.attributes.each do |name,_|
+        return false unless self.send(name) == other.send(name)
+      end
+      true
+    end
+
+
     module ClassMethods
 
       attr_reader :attributes

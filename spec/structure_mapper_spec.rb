@@ -2,6 +2,36 @@ require 'spec_helper'
 
 describe StructureMapper::Array do
 
+   describe :== do
+    subject do
+      Class.new do
+        include StructureMapper::Array
+        attribute a: String
+      end
+    end
+    context "when data is different" do
+      it "should return false" do
+        v1=subject.new
+        v1.a='test1'
+        v2=subject.new
+        v2.a='test2'
+        v1.should_not == v2
+      end
+    end
+    context "when data is equal" do
+
+      it "should return true" do
+        v1=subject.new
+        v1.a='test'
+        v2=subject.new
+        v2.a='test'
+        v1.should == v2
+
+      end
+    end
+  end
+
+
   describe :to_structure do
     context "when object is mapped to hash" do
       context "when object has one String property" do
@@ -190,6 +220,36 @@ describe StructureMapper::Array do
 end
 
 describe StructureMapper::Hash do
+
+
+  describe :== do
+    subject do
+      Class.new do
+        include StructureMapper::Hash
+        attribute a: String
+      end
+    end
+    context "when data is different" do
+      it "should return false" do
+        v1=subject.new
+        v1.a='test1'
+        v2=subject.new
+        v2.a='test2'
+        v1.should_not == v2
+      end
+    end
+    context "when data is equal" do
+
+      it "should return true" do
+        v1=subject.new
+        v1.a='test'
+        v2=subject.new
+        v2.a='test'
+        v1.should == v2
+
+      end
+    end
+  end
 
   describe :from_structure do
 
