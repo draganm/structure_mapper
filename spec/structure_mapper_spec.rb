@@ -1,8 +1,26 @@
 require 'spec_helper'
 
+
 describe StructureMapper::Array do
 
-   describe :== do
+
+  describe :to_structure do
+    subject do
+      Class.new do
+        include StructureMapper::Array
+        attribute a: [String]
+        attribute b: {}
+      end
+    end
+    it "should convert object to array" do
+      obj=subject.new
+      obj.a=['test']
+      obj.b={'c' => 'd'}
+      obj.to_structure.should == [["test"], {"c"=>"d"}]
+    end
+  end
+
+  describe :== do
     subject do
       Class.new do
         include StructureMapper::Array
