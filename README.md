@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/draganm/structure_mapper.png?branch=master)](https://travis-ci.org/draganm/structure_mapper) 
+[![Gem Version](https://badge.fury.io/rb/structure_mapper.png)](http://badge.fury.io/rb/structure_mapper)
 
 # StructureMapper
 
